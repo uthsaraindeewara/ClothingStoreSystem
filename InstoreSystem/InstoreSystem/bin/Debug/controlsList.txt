@@ -1,0 +1,21 @@
+List of Controls with their Types, Names, and Text:
+===================================================
+Control Type: Button, Name: btnCancel, Text: Cancel
+Control Type: Button, Name: btnAdd, Text: Add
+Control Type: ComboBox, Name: cmbStore, Text: 
+Control Type: RadioButton, Name: rbFemale, Text: Female
+Control Type: RadioButton, Name: rbMale, Text: Male
+Control Type: DateTimePicker, Name: dtpDob, Text: 
+Control Type: TextBox, Name: txtSalary, Text: 
+Control Type: Label, Name: label8, Text: Salary
+Control Type: Label, Name: label7, Text: Store
+Control Type: Label, Name: label6, Text: Gender
+Control Type: TextBox, Name: txtContactNo, Text: 
+Control Type: Label, Name: label5, Text: Contact No
+Control Type: TextBox, Name: txtAddress, Text: 
+Control Type: Label, Name: label4, Text: Address
+Control Type: Label, Name: label3, Text: DOB
+Control Type: TextBox, Name: txtName, Text: 
+Control Type: Label, Name: label2, Text: Name
+Control Type: TextBox, Name: tx, Text: 
+Control Type: Label, Name: label1, Text: ID
