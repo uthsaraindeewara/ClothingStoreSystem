@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace InstoreSystem.Finance
+namespace InstoreSystem.Interface
 {
-    public partial class Records : Form
+    public partial class HomePanel : UserControl
     {
-        public Records()
+        public HomePanel()
         {
             InitializeComponent();
         }

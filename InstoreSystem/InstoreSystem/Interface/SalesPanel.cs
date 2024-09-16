@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace InstoreSystem.Inventory
+namespace InstoreSystem.Interface
 {
-    public partial class Items : Form
+    public partial class SalesPanel : UserControl
     {
-        public Items()
+        public SalesPanel()
         {
             InitializeComponent();
         }

@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using InstoreSystem.Model;
+using MySql.Data.MySqlClient;
 
 namespace InstoreSystem.Employees
 {
     internal class Employee
     {
-        string cs = @"Server=localhost; Port=3307; Database=studentsdb; User Id=root;";
-
         protected int employeeId;
         protected string employeeName;
         protected string address;
@@ -19,9 +19,10 @@ namespace InstoreSystem.Employees
         protected DateTime dOB;
         protected string gender;
         protected int storeId;
-        protected int salary;
+        protected double salary;
 
-        public Employee(int employeeId, string employeeName, string address, string contactNo, DateTime dOB, string gender, int storeId, int salary)
+        // Constructor called when a object of a new employee is created
+        public Employee(int employeeId, string employeeName, string address, string contactNo, DateTime dOB, string gender, double salary, int storeId)
         {
             this.employeeId = employeeId;
             this.employeeName = employeeName;
@@ -32,96 +33,136 @@ namespace InstoreSystem.Employees
             this.storeId = storeId;
             this.salary = salary;
         }
-        public void addEmployee()
+
+        // Constructor called when a object of a already excisting employee is created
+        public Employee(int employeeId)
         {
-            string query = "INSERT INTO employees (employeeId, employeeName, address, contactNo, dOB, gender, storeId, salary) " +
-                           "VALUES (@employeeId, @employeeName, @address, @contactNo, @dOB, @gender, @storeId, @salary)";
+            string query = "SELECT employeeID, employeeName,  address, contactNo, dOB, gender, salary, storeID FROM employee WHERE employeeID = @employeeId";
 
-            using (SqlConnection connection = new SqlConnection(cs))
+            using (MySqlConnection connection = Connector.getConnection())
             {
-                connection.Open();
-                SqlCommand com = new SqlCommand(query, connection);
-
-                com.Parameters.AddWithValue("@employeeId", employeeId);
-                com.Parameters.AddWithValue("@employeeName", employeeName);
-                com.Parameters.AddWithValue("@address", address);
-                com.Parameters.AddWithValue("@contactNo", contactNo);
-                com.Parameters.AddWithValue("@dOB", dOB);
-                com.Parameters.AddWithValue("@gender", gender);
-                com.Parameters.AddWithValue("@storeId", storeId);
-                com.Parameters.AddWithValue("@salary", salary);
-
-                if (com.ExecuteNonQuery() > 0)
+                try
                 {
-                    MessageBox.Show("Employee added Successfully", "Information");
-                }
-            }
-        }
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(query, connection);
+                    com.Parameters.AddWithValue("@employeeId", employeeId);
+                    MySqlDataReader dr = com.ExecuteReader();
 
-        public void updateEmployee()
-        {
-            string query = "UPDATE employees SET " +
-                           "name = @employeeName, " +
-                           "address = @Address, " +
-                           "contactNo = @ContactNo, " +
-                           "dOB = @DOB, " +
-                           "gender = @Gender, " +
-                           "storeId = @StoreId, " +
-                           "salary = @Salary " +
-                           "WHERE id = @employeeId";
-
-            using (SqlConnection connection = new SqlConnection(cs))
-            {
-                connection.Open();
-                SqlCommand com = new SqlCommand(query, connection);
-
-                com.Parameters.AddWithValue("@employeeId", employeeId);
-                com.Parameters.AddWithValue("@employeeName", employeeName);
-                com.Parameters.AddWithValue("@address", address);
-                com.Parameters.AddWithValue("@contactNo", contactNo);
-                com.Parameters.AddWithValue("@dOB", dOB);
-                com.Parameters.AddWithValue("@gender", gender);
-                com.Parameters.AddWithValue("@storeId", storeId);
-                com.Parameters.AddWithValue("@salary", salary);
-
-                if (com.ExecuteNonQuery() > 0)
-                {
-                    MessageBox.Show("Employee updated successfully", "Information");
-                }
-                else
-                {
-                    MessageBox.Show("Employee update failed", "Error");
-                }
-            }
-        }
-
-        public void LoadEmployeeById(int employeeId)
-        {
-            string query = "SELECT id, name, address, contactNo, dOB, gender, storeId, salary FROM employees WHERE id = @employeeId";
-
-            using (SqlConnection connection = new SqlConnection(cs))
-            {
-                connection.Open();
-                SqlCommand com = new SqlCommand(query, connection);
-                com.Parameters.AddWithValue("@employeeId", employeeId);
-
-                using (SqlDataReader reader = com.ExecuteReader())
-                {
-                    if (reader.Read())
+                    if (dr.Read())
                     {
-                        int id = reader.GetInt32(reader.GetOrdinal("employeeId"));
-                        string name = reader.GetString(reader.GetOrdinal("employeeName"));
-                        string address = reader.GetString(reader.GetOrdinal("address"));
-                        string contactNo = reader.GetString(reader.GetOrdinal("contactNo"));
-                        DateTime dOB = reader.GetDateTime(reader.GetOrdinal("dOB"));
-                        string gender = reader.GetString(reader.GetOrdinal("gender"));
-                        int storeId = reader.GetInt32(reader.GetOrdinal("storeId"));
-                        int salary = reader.GetInt32(reader.GetOrdinal("salary"));
+                        this.employeeId = Convert.ToInt32(dr["employeeID"]);
+                        this.employeeName = dr["employeeName"].ToString();
+                        this.contactNo = dr["contactNo"].ToString();
+                        this.address = dr["address"].ToString();
+                        this.dOB = Convert.ToDateTime(dr["dOB"]);
+                        this.gender = dr["gender"].ToString();
+                        this.salary = Convert.ToDouble(dr["salary"]);
+                        this.storeId = Convert.ToInt32(dr["storeID"]);
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
             }
         }
 
+        // Add new employee
+        public void addEmployee(int admin_id)
+        {
+            string query = "INSERT INTO employee (employeeName, contactNo, address, dOB, gender, salary, storeID, adminID) " +
+                           "VALUES (@employeeName, @contactNo, @address, @dOB, @gender, @salary, @storeId, @adminId)";
+
+            using (MySqlConnection connection = Connector.getConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(query, connection);
+
+                    com.Parameters.AddWithValue("@employeeName", employeeName);
+                    com.Parameters.AddWithValue("@contactNo", contactNo);
+                    com.Parameters.AddWithValue("@address", address);
+                    com.Parameters.AddWithValue("@dOB", dOB);
+                    com.Parameters.AddWithValue("@gender", gender);
+                    com.Parameters.AddWithValue("@salary", salary);
+                    com.Parameters.AddWithValue("@storeId", storeId);
+                    com.Parameters.AddWithValue("@adminId", admin_id);
+
+                    if (com.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Employee added successfully", "Information");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
+            }
+        }
+
+        // Update the employee
+        public void updateEmployee()
+        {
+            string query = "UPDATE employee SET " +
+                           "name = @employeeName, " +
+                           "contactNo = @ContactNo, " +
+                           "address = @Address, " +
+                           "dOB = @DOB, " +
+                           "gender = @Gender, " +
+                           "salary = @Salary " +
+                           "storeID = @StoreId, " +
+                           "WHERE id = @employeeId";
+
+            using (MySqlConnection connection = Connector.getConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(query, connection);
+
+                    com.Parameters.AddWithValue("@employeeId", employeeId);
+                    com.Parameters.AddWithValue("@employeeName", employeeName);
+                    com.Parameters.AddWithValue("@contactNo", contactNo);
+                    com.Parameters.AddWithValue("@address", address);
+                    com.Parameters.AddWithValue("@dOB", dOB);
+                    com.Parameters.AddWithValue("@gender", gender);
+                    com.Parameters.AddWithValue("@salary", salary);
+                    com.Parameters.AddWithValue("@storeId", storeId);
+
+                    if (com.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Employee updated successfully", "Information");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Updating employee unsuccessfull", "Error");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
+            }
+        }
+
+        // Return details as a dictionary of strings
+        public Dictionary<String, String> getEmployeeDetails()
+        {
+            Dictionary<String, String> employeeDetails = new Dictionary<String, String>()
+            {
+                { "employeeId", this.employeeId.ToString() },
+                { "employeeName", this.employeeName },
+                { "contactNo", this.contactNo },
+                { "addess", this.address },
+                { "dOB", this.dOB.ToString() },
+                { "gender", this.gender },
+                { "salary", this.salary.ToString() },
+                { "storeID", this.salary.ToString() }
+            };
+
+            return employeeDetails;
+        }
 
         // Getter for Id
         public int getId()
@@ -208,7 +249,7 @@ namespace InstoreSystem.Employees
         }
 
         // Getter for Salary
-        public int getSalary()
+        public double getSalary()
         {
             return salary;
         }

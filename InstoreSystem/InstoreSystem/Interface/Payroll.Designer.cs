@@ -1,6 +1,8 @@
-﻿namespace InstoreSystem.Finance
+﻿using System;
+
+namespace InstoreSystem.Interface
 {
-    partial class Records
+    partial class Payroll
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +30,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Records";
+            this.SuspendLayout();
+            // 
+            // Payroll
+            // 
+            this.ClientSize = new System.Drawing.Size(1194, 672);
+            this.Name = "Payroll";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

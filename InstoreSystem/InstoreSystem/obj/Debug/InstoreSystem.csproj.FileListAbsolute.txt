@@ -41,3 +41,13 @@ D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\bin\Debug\System.Numerics.Vec
 D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreS.AEFB4AB8.Up2Date
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.ImageManager.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.AddProduct.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.Application.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.HomePanel.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.EmployeesPanel.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.CashierPanel.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.FinancePanel.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.InventoryPanel.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.SalesPanel.resources
+D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\obj\Debug\InstoreSystem.Interface.Payroll.resources
