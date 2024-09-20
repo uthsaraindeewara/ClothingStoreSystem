@@ -22,9 +22,8 @@ namespace InstoreSystem.Employees
         protected double salary;
 
         // Constructor called when a object of a new employee is created
-        public Employee(int employeeId, string employeeName, string address, string contactNo, DateTime dOB, string gender, double salary, int storeId)
+        public Employee(string employeeName, string address, string contactNo, DateTime dOB, string gender, double salary, int storeId)
         {
-            this.employeeId = employeeId;
             this.employeeName = employeeName;
             this.address = address;
             this.contactNo = contactNo;
@@ -154,11 +153,11 @@ namespace InstoreSystem.Employees
                 { "employeeId", this.employeeId.ToString() },
                 { "employeeName", this.employeeName },
                 { "contactNo", this.contactNo },
-                { "addess", this.address },
+                { "address", this.address },
                 { "dOB", this.dOB.ToString() },
                 { "gender", this.gender },
                 { "salary", this.salary.ToString() },
-                { "storeID", this.salary.ToString() }
+                { "storeId", this.storeId.ToString() }
             };
 
             return employeeDetails;
@@ -255,7 +254,7 @@ namespace InstoreSystem.Employees
         }
 
         // Setter for Salary
-        public void setSalary(int salary)
+        public void setSalary(double salary)
         {
             this.salary = salary;
         }

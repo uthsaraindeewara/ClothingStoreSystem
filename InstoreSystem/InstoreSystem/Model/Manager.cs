@@ -9,21 +9,22 @@ using System.Windows.Forms;
 
 namespace InstoreSystem.Model
 {
-    internal class Manager
+    internal class Manager : Employee
     {
         private int managerId;
         private string role;
         private string email;
         private string qualification;
-        public Manager(int managetId, string role, string email, string qualification)
+        public Manager(string employeeName, string address, string contactNo, DateTime dOB, string gender, double salary, int storeId, string role, string email, string qualification)
+            : base(employeeName, address, contactNo, dOB, gender, salary, storeId)
         {
-            this.managerId = managetId;
             this.role = role;
             this.email = email;
             this.qualification = qualification;
         }
 
         public Manager(int managerId)
+            : base(managerId)
         {
             string query = "SELECT managerID, role, email, qualification FROM manager WHERE managerID = @managerId";
 
@@ -51,8 +52,31 @@ namespace InstoreSystem.Model
             }
         }
 
-        public void addManager()
+        public void addManager(int admin_id)
         {
+            addEmployee(admin_id);
+
+            string sql = "SELECT MAX(employeeID) AS employeeID FROM employee";
+
+            using (MySqlConnection connection = Connector.getConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(sql, connection);
+                    MySqlDataReader dr = com.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        managerId = dr.GetInt32("employeeID");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
+            }
+
             string query = "INSERT INTO manager (managerID, role, email, qualification) " +
                            "VALUES (@managerId, @role, @email, @qualification)";
 
@@ -82,6 +106,8 @@ namespace InstoreSystem.Model
 
         public void updateManager()
         {
+            updateEmployee();
+
             string query = "UPDATE manager SET " +
                            "role = @role, " +
                            "email = @email, " +
@@ -114,6 +140,33 @@ namespace InstoreSystem.Model
                     MessageBox.Show($"Error: {ex.Message}", "Error");
                 }
             }
+        }
+
+        public Dictionary<String, String> getManagerDetails()
+        {
+            Dictionary<String, String> managerDetails = new Dictionary<String, String>()
+            {
+                { "role", this.role },
+                { "email", this.email },
+                { "qualification", this.qualification },
+            };
+
+            return managerDetails;
+        }
+
+        public void setRole(String role)
+        {
+            this.role = role;
+        }
+
+        public void setEmail(String email)
+        {
+            this.email = email;
+        }
+
+        public void setQualification(String qualification)
+        {
+            this.qualification = qualification;
         }
     }
 }

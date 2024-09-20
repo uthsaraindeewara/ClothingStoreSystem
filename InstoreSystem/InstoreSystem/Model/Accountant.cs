@@ -5,25 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using InstoreSystem.Employees;
 
 namespace InstoreSystem.Model
 {
-    internal class Accountant
+    internal class Accountant : Employee
     {
         private int accountantId;
         private string email;
         private string qualification;
 
         // Constructor for creating a new accountant
-        public Accountant(int accountantId, string email, string qualification)
+        public Accountant(string employeeName, string address, string contactNo, DateTime dOB, string gender, double salary, int storeId, string email, string qualification)
+            : base(employeeName, address, contactNo, dOB, gender, salary, storeId)
         {
-            this.accountantId = accountantId;
             this.email = email;
             this.qualification = qualification;
         }
 
         // Constructor for fetching an existing accountant from the database
         public Accountant(int accountantId)
+            : base(accountantId)
         {
             string query = "SELECT accountantID, email, qualification FROM accountant WHERE accountantID = @accountantId";
 
@@ -51,8 +53,31 @@ namespace InstoreSystem.Model
         }
 
         // Method to add a new accountant to the database
-        public void addAccountant()
+        public void addAccountant(int admin_id)
         {
+            addEmployee(admin_id);
+
+            string sql = "SELECT MAX(employeeID) AS employeeID FROM employee";
+
+            using (MySqlConnection connection = Connector.getConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(sql, connection);
+                    MySqlDataReader dr = com.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        accountantId = dr.GetInt32("employeeID");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
+            }
+
             string query = "INSERT INTO accountant (accountantID, email, qualification) " +
                            "VALUES (@accountantId, @Email, @Qualification)";
 
@@ -81,6 +106,8 @@ namespace InstoreSystem.Model
         // Method to update an existing accountant in the database
         public void updateAccountant()
         {
+            updateEmployee();
+
             string query = "UPDATE accountant SET " +
                            "email = @Email, " +
                            "qualification = @Qualification " +
@@ -110,6 +137,27 @@ namespace InstoreSystem.Model
                     MessageBox.Show($"Error: {ex.Message}", "Error");
                 }
             }
+        }
+
+        public Dictionary<String, String> getAccountantDetails()
+        {
+            Dictionary<String, String> accountantDetails = new Dictionary<String, String>()
+            {
+                { "email", this.email },
+                { "qualification", this.qualification },
+            };
+
+            return accountantDetails;
+        }
+
+        public void setEmail(String email)
+        {
+            this.email = email;
+        }
+
+        public void setQualification(String qualification)
+        {
+            this.qualification = qualification;
         }
     }
 }

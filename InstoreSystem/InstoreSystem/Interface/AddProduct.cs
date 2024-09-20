@@ -14,9 +14,23 @@ namespace InstoreSystem.Interface
 {
     public partial class AddProduct : Form
     {
+        int productId;
+
         public AddProduct()
         {
             InitializeComponent();
+
+            addNumericSize();
+            setNextId();
+        }
+
+        public AddProduct(int productId)
+        {
+            InitializeComponent();
+
+            this.productId = productId;
+            changeToUpdate();
+            loadProductDetails();
         }
 
         private void addNumericSize()
@@ -41,12 +55,6 @@ namespace InstoreSystem.Interface
 
             // Add the panel to the FlowLayoutPanel
             pnlNumericSize.Controls.Add(rowPanel);
-        }
-
-        private void AddProduct_Load(object sender, EventArgs e)
-        {
-            addNumericSize();
-            setNextId();
         }
 
         private void btnAddSize_Click(object sender, EventArgs e)
@@ -181,7 +189,8 @@ namespace InstoreSystem.Interface
                 prd.addProduct();
 
                 clearFields();
-                AddProduct_Load(this, null);
+                addNumericSize();
+                setNextId();
             }
         }
 
@@ -278,6 +287,216 @@ namespace InstoreSystem.Interface
             cmbCategory.Text = "";
             txtPrice.Text = "";
             txtDescription.Text = "";
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (ValidateInputs())
+            {
+                Product prod = new Product(productId);
+                prod.setProductName(txtName.Text);
+                if (cbInstore.Checked && cbOnline.Checked)
+                {
+                    prod.setType("IO");
+                }
+                else if (cbInstore.Checked)
+                {
+                    prod.setType("I");
+                }
+                else if (cbOnline.Checked)
+                {
+                    prod.setType("O");
+                }
+
+                if (rbAlpha.Checked)
+                {
+                    prod.setSizing("Alpha");
+                }
+                else if (rbNumeric.Checked)
+                {
+                    prod.setSizing("Numeric");
+                }
+
+                Dictionary<string, int> quantity = new Dictionary<string, int>();
+
+                if (rbAlpha.Checked)
+                {
+                    if (XS.Value > 0)
+                    {
+                        quantity.Add("XS", (int)XS.Value);
+                    }
+                    if (S.Value > 0)
+                    {
+                        quantity.Add("S", (int)S.Value);
+                    }
+                    if (M.Value > 0)
+                    {
+                        quantity.Add("M", (int)M.Value);
+                    }
+                    if (L.Value > 0)
+                    {
+                        quantity.Add("L", (int)L.Value);
+                    }
+                    if (XL.Value > 0)
+                    {
+                        quantity.Add("XL", (int)XL.Value);
+                    }
+                    if (XXL.Value > 0)
+                    {
+                        quantity.Add("XXL", (int)XXL.Value);
+                    }
+                    if (XL3.Value > 0)
+                    {
+                        quantity.Add("3XL", (int)XL3.Value);
+                    }
+                    if (XL4.Value > 0)
+                    {
+                        quantity.Add("4XL", (int)XL4.Value);
+                    }
+                }
+                else if (rbNumeric.Checked)
+                {
+                    foreach (Control control in pnlNumericSize.Controls)
+                    {
+                        if (control is Panel panel)
+                        {
+                            string size = "";
+                            int qty = 0;
+
+                            foreach (Control childControl in control.Controls)
+                            {
+                                if (childControl is TextBox textBox)
+                                {
+                                    size = textBox.Text;
+                                }
+                                else if (childControl is NumericUpDown numericUpDown)
+                                {
+                                    qty = (int)numericUpDown.Value;
+                                }
+                            }
+
+                            if (size != "" && qty > 0)
+                            {
+                                quantity.Add(size, qty);
+                            }
+                        }
+                    }
+                }
+
+                prod.setQuantity(quantity);
+                prod.setCategory(cmbCategory.Text);
+                prod.setPrice(Convert.ToInt32(txtPrice.Text));
+                prod.setDescription(txtDescription.Text);
+
+                prod.updateProduct();
+
+                this.Dispose();
+            }
+        }
+
+        private void changeToUpdate()
+        {
+            btnAdd.Text = "Update";
+            Text = "Update Product";
+            btnAdd.Click -= btnAdd_Click;
+            btnAdd.Click += btnUpdate_Click;
+        }
+
+        private void loadProductDetails()
+        {
+            Product prod = new Product(productId);
+            Dictionary<string, string> productDetails = prod.getProductDetails();
+            txtId.Text = productDetails["productId"];
+            txtName.Text = productDetails["productName"];
+            if (productDetails["type"] == "I")
+            {
+                cbInstore.Checked = true;
+                cbOnline.Checked = false;
+            }
+            else if (productDetails["type"] == "O")
+            {
+                cbInstore.Checked = false;
+                cbOnline.Checked = true;
+            }
+            else if (productDetails["type"] == "IO")
+            {
+                cbInstore.Checked = true;
+                cbOnline.Checked = true;
+            }
+
+            if (productDetails["sizing"] == "Alpha")
+            {
+                rbAlpha.Checked = true;
+                rbNumeric.Checked = false;
+
+                Dictionary<string, int> productQuantity = prod.getQuantity();
+
+                if (productQuantity.ContainsKey("XS"))
+                {
+                    XS.Value = productQuantity["XS"];
+                }
+                if (productQuantity.ContainsKey("S"))
+                {
+                    S.Value = productQuantity["S"];
+                }
+                if (productQuantity.ContainsKey("M"))
+                {
+                    M.Value = productQuantity["M"];
+                }
+                if (productQuantity.ContainsKey("L"))
+                {
+                    L.Value = productQuantity["L"];
+                }
+                if (productQuantity.ContainsKey("XL"))
+                {
+                    XL.Value = productQuantity["XL"];
+                }
+                if (productQuantity.ContainsKey("XXL"))
+                {
+                    XXL.Value = productQuantity["XXL"];
+                }
+                if (productQuantity.ContainsKey("3XL"))
+                {
+                    XL3.Value = productQuantity["3XL"];
+                }
+                if (productQuantity.ContainsKey("4XL"))
+                {
+                    XL4.Value = productQuantity["4XL"];
+                }
+            }
+            else if (productDetails["sizing"] == "Numeric")
+            {
+                rbAlpha.Checked = false;
+                rbNumeric.Checked = true;
+
+                Dictionary<string, int> productQuantity = prod.getQuantity();
+
+                foreach (KeyValuePair<string, int> kvp in productQuantity)
+                {
+                    Panel rowPanel = new Panel();
+                    rowPanel.Size = new Size(280, 40);
+
+                    // TextBox to hold the size
+                    TextBox size = new TextBox();
+                    size.Size = new Size(130, 30);
+                    size.Location = new Point(0, 5);
+                    size.Text = kvp.Key;
+
+                    NumericUpDown quantity = new NumericUpDown();
+                    quantity.Size = new Size(130, 30);
+                    quantity.Location = new Point(140, 5);
+                    quantity.Value = kvp.Value;
+
+                    rowPanel.Controls.Add(size);
+                    rowPanel.Controls.Add(quantity);
+
+                    pnlNumericSize.Controls.Add(rowPanel);
+                }
+            }
+
+            cmbCategory.SelectedItem = productDetails["category"];
+            txtPrice.Text = productDetails["price"];
+            txtDescription.Text = productDetails["description"];
         }
     }
 }

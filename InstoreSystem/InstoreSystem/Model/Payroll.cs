@@ -12,17 +12,16 @@ namespace InstoreSystem.Model
 {
     internal class Payroll
     {
-        protected int payrollId;
-        protected int employeeId;
-        protected DateTime payDate;
-        protected decimal bonus;
-        protected decimal deduction;
-        protected decimal basicSalary;
+        private int payrollId;
+        private int employeeId;
+        private DateTime payDate;
+        private decimal bonus;
+        private decimal deduction;
+        private decimal basicSalary;
 
         // Constructor called when a new payroll record is created
-        public Payroll(int payrollId, int employeeId, DateTime payDate, decimal bonus, decimal deduction, decimal basicSalary)
+        public Payroll(int employeeId, DateTime payDate, decimal bonus, decimal deduction, decimal basicSalary)
         {
-            this.payrollId = payrollId;
             this.employeeId = employeeId;
             this.payDate = payDate;
             this.bonus = bonus;
@@ -33,7 +32,7 @@ namespace InstoreSystem.Model
         // Constructor called when an existing payroll record is retrieved
         public Payroll(int payrollId)
         {
-            string query = "SELECT payroll_ID, emp_id, payDate, bonus, deduction, basicSalary FROM payroll WHERE payroll_ID = @payrollId";
+            string query = "SELECT payroll_ID, employee_id, payDate, bonus, deduction, basicSalary FROM payroll WHERE payroll_ID = @payrollId";
 
             using (MySqlConnection connection = Connector.getConnection())
             {
@@ -47,7 +46,7 @@ namespace InstoreSystem.Model
                     if (dr.Read())
                     {
                         this.payrollId = Convert.ToInt32(dr["payroll_ID"]);
-                        this.employeeId = Convert.ToInt32(dr["emp_id"]);
+                        this.employeeId = Convert.ToInt32(dr["employee_id"]);
                         this.payDate = Convert.ToDateTime(dr["payDate"]);
                         this.bonus = Convert.ToDecimal(dr["bonus"]);
                         this.deduction = Convert.ToDecimal(dr["deduction"]);
@@ -64,8 +63,8 @@ namespace InstoreSystem.Model
         // Add new payroll record
         public void addPayroll()
         {
-            string query = "INSERT INTO payroll (payroll_ID, emp_id, payDate, bonus, deduction, basicSalary) " +
-                           "VALUES (@payrollId, @employeeId, @payDate, @bonus, @deduction, @basicSalary)";
+            string query = "INSERT INTO payroll (employee_id, payDate, bonus, deduction, basicSalary) " +
+                           "VALUES (@employeeId, @payDate, @bonus, @deduction, @basicSalary)";
 
             using (MySqlConnection connection = Connector.getConnection())
             {
@@ -74,7 +73,6 @@ namespace InstoreSystem.Model
                     connection.Open();
                     MySqlCommand com = new MySqlCommand(query, connection);
 
-                    com.Parameters.AddWithValue("@payrollId", payrollId);
                     com.Parameters.AddWithValue("@employeeId", employeeId);
                     com.Parameters.AddWithValue("@payDate", payDate);
                     com.Parameters.AddWithValue("@bonus", bonus);
@@ -97,7 +95,7 @@ namespace InstoreSystem.Model
         public void updatePayroll()
         {
             string query = "UPDATE payroll SET " +
-                           "emp_id = @employeeId, " +
+                           "employee_id = @employeeId, " +
                            "payDate = @payDate, " +
                            "bonus = @bonus, " +
                            "deduction = @deduction, " +

@@ -17,7 +17,7 @@ namespace InstoreSystem.Model
         private string type;
         private string sizing;
         private string description;
-        private Dictionary<string, int> quantity;
+        private Dictionary<string, int> quantity = new Dictionary<string, int>();
         private string category;
         private decimal price;
 
@@ -66,7 +66,7 @@ namespace InstoreSystem.Model
 
                     string sql2 = "SELECT size, quantity FROM product_quantity WHERE product_id = @productId";
 
-                    using (MySqlCommand com1 = new MySqlCommand(sql, connection))
+                    using (MySqlCommand com1 = new MySqlCommand(sql2, connection))
                     {
                         com1.Parameters.AddWithValue("@productId", productId);
                         MySqlDataReader dr1 = com1.ExecuteReader();
@@ -143,8 +143,8 @@ namespace InstoreSystem.Model
             string query = "UPDATE product SET " +
                            "productName = @productName, " +
                            "type = @type, " +
+                           "sizing = @sizing, " +
                            "description = @description, " +
-                           "quantity = @quantity, " +
                            "catagory = @category, " +
                            "price = @price " +
                            "WHERE productID = @productId";
@@ -156,16 +156,29 @@ namespace InstoreSystem.Model
                     connection.Open();
                     MySqlCommand com = new MySqlCommand(query, connection);
 
-                    com.Parameters.AddWithValue("@productId", productId);
                     com.Parameters.AddWithValue("@productName", productName);
                     com.Parameters.AddWithValue("@type", type);
+                    com.Parameters.AddWithValue("@sizing", sizing);
                     com.Parameters.AddWithValue("@description", description);
-                    com.Parameters.AddWithValue("@quantity", quantity);
                     com.Parameters.AddWithValue("@category", category);
                     com.Parameters.AddWithValue("@price", price);
 
                     if (com.ExecuteNonQuery() > 0)
                     {
+                        string sql1 = @"INSERT INTO product_quantity (product_id, size, quantity) VALUES(@productId, @size, @quantity) ON DUPLICATE KEY UPDATE quantity = @quantity";
+
+                        using (MySqlCommand com1 = new MySqlCommand(sql1, connection))
+                        {
+                            foreach (KeyValuePair<string, int> kvp in quantity)
+                            {
+                                com1.Parameters.AddWithValue("@productId", productId);
+                                com1.Parameters.AddWithValue("@size", kvp.Key);
+                                com1.Parameters.AddWithValue("@quantity", kvp.Value);
+                                com1.ExecuteNonQuery();
+                                com1.Parameters.Clear();
+                            }
+                        }
+
                         MessageBox.Show("Product updated successfully", "Information");
                     }
                     else
@@ -188,8 +201,8 @@ namespace InstoreSystem.Model
                 { "productId", this.productId.ToString() },
                 { "productName", this.productName },
                 { "type", this.type },
+                { "sizing", this.sizing },
                 { "description", this.description },
-                { "quantity", this.quantity.ToString() },
                 { "category", this.category },
                 { "price", this.price.ToString("F2") }
             };
@@ -231,6 +244,16 @@ namespace InstoreSystem.Model
         public void setType(string type)
         {
             this.type = type;
+        }
+
+        public string getSizing()
+        {
+            return sizing;
+        }
+
+        public void setSizing(string sizing)
+        {
+            this.sizing = sizing;
         }
 
         // Getter for Description

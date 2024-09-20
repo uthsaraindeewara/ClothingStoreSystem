@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Forms;
+using InstoreSystem.Employees;
+using InstoreSystem.Interface;
 using InstoreSystem.Model;
 using MySql.Data.MySqlClient;
 
@@ -62,9 +64,7 @@ namespace InstoreSystem
                             FROM
                                 employee e
                             LEFT JOIN
-                                employee_attendance ea ON e.employeeID = ea.employeeID
-                            LEFT JOIN
-                                attendance a ON ea.attendanceID = a.attendanceID AND a.date = CURDATE()
+                                attendance a ON e.employeeID = a.employee_id AND a.date = CURDATE()
                             INNER JOIN
                                 store s ON e.storeID = s.storeID
                             WHERE
@@ -98,9 +98,7 @@ namespace InstoreSystem
                             FROM
                                 employee e
                             LEFT JOIN
-                                employee_attendance ea ON e.employeeID = ea.employeeID
-                            LEFT JOIN
-                                attendance a ON ea.attendanceID = a.attendanceID AND a.date = CURDATE()
+                                attendance a ON e.employeeID = a.employee_id AND a.date = CURDATE()
                             INNER JOIN
                                 store s ON e.storeID = s.storeID
                             WHERE
@@ -179,7 +177,7 @@ namespace InstoreSystem
                             }
 
                             // Delete related records from employee_attendance
-                            string deleteEmployeeAttendance = "DELETE FROM employee_attendance WHERE employeeID = @employeeID";
+                            string deleteEmployeeAttendance = "DELETE FROM attendance WHERE employeeID = @employeeID";
                             using (MySqlCommand cmd = new MySqlCommand(deleteEmployeeAttendance, connection, transaction))
                             {
                                 cmd.Parameters.AddWithValue("@employeeID", employeeId);
@@ -254,11 +252,30 @@ namespace InstoreSystem
                     txtSearch_TextChanged(this, null);
                 }
             }
+            else if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Update"].Index)
+            {
+                int employeeId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["ID"].Value);
+                AddEmployees employee = new AddEmployees(employeeId);
+                employee.ShowDialog();
+                txtSearch_TextChanged(this, null);
+            }
         }
 
         private void cmbFilterFrom_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtSearch.Text = "";
+        }
+
+        private void btnPayroll_Click(object sender, EventArgs e)
+        {
+            PayrollManager payroll = new PayrollManager();
+            payroll.ShowDialog();
+        }
+
+        private void btnNewEmployee_Click(object sender, EventArgs e)
+        {
+            AddEmployees employees = new AddEmployees();
+            employees.ShowDialog();
         }
     }
 }

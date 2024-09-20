@@ -16,5 +16,11 @@ namespace InstoreSystem.Interface
         {
             InitializeComponent();
         }
+
+        private void btnMarkAttendance_Click(object sender, EventArgs e)
+        {
+            AttendanceMark att = new AttendanceMark();
+            att.ShowDialog();
+        }
     }
 }

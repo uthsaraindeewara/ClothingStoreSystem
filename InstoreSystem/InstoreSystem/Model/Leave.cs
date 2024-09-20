@@ -12,10 +12,10 @@ namespace InstoreSystem.Model
 {
     internal class Leave
     {
-        protected int leaveId;
-        protected DateTime date;
-        protected TimeSpan time;
-        protected int employeeId;
+        private int leaveId;
+        private DateTime date;
+        private TimeSpan time;
+        private int employeeId;
 
         // Constructor called when a new leave record is created
         public Leave(int leaveId, DateTime date, TimeSpan time, int employeeId)

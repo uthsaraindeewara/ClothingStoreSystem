@@ -5,25 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using InstoreSystem.Employees;
 
 namespace InstoreSystem.Model
 {
-    internal class Cashier
+    internal class Cashier : Employee
     {
         private int cashierId;
         private int cashRegisterId;
         private string experience;
 
         // Constructor called when a new Cashier object is created
-        public Cashier(int cashierId, int cashRegisterId, string experience)
+        public Cashier(string employeeName, string address, string contactNo, DateTime dOB, string gender, double salary, int storeId, int cashRegisterId, string experience)
+            : base(employeeName, address, contactNo, dOB, gender, salary, storeId)
         {
-            this.cashierId = cashierId;
             this.cashRegisterId = cashRegisterId;
             this.experience = experience;
         }
 
         // Constructor called when an existing Cashier object is created from the database
         public Cashier(int cashierId)
+            : base(cashierId)
         {
             string query = "SELECT cashierID, cashRegisterNo, experience FROM cashier WHERE cashierID = @cashierId";
 
@@ -51,8 +53,31 @@ namespace InstoreSystem.Model
         }
 
         // Add a new Cashier to the database
-        public void addCashier()
+        public void addCashier(int admin_id)
         {
+            addEmployee(admin_id);
+
+            string sql = "SELECT MAX(employeeID) AS employeeID FROM employee";
+
+            using (MySqlConnection connection = Connector.getConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(sql, connection);
+                    MySqlDataReader dr = com.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        cashierId = dr.GetInt32("employeeID");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
+            }
+
             string query = "INSERT INTO cashier (cashierID, cashRegisterNo, experience) " +
                            "VALUES (@cashierId, @cashRegisterId, @experience)";
 
@@ -82,6 +107,8 @@ namespace InstoreSystem.Model
         // Update an existing Cashier in the database
         public void updateCashier()
         {
+            updateEmployee();
+
             string query = "UPDATE cashier SET " +
                            "cashRegisterNo = @cashRegisterId, " +
                            "experience = @experience " +
@@ -112,6 +139,27 @@ namespace InstoreSystem.Model
                     MessageBox.Show($"Error: {ex.Message}", "Error");
                 }
             }
+        }
+
+        public Dictionary<String, String> getCashierDetails()
+        {
+            Dictionary<String, String> cashierDetails = new Dictionary<String, String>()
+            {
+                { "cashRegisterId", this.cashRegisterId.ToString() },
+                { "experience", this.experience },
+            };
+
+            return cashierDetails;
+        }
+
+        public void setCashRegisterId(int cashRegisterId)
+        {
+            this.cashRegisterId = cashRegisterId;
+        }
+
+        public void setExperience(string experience)
+        {
+            this.experience = experience;
         }
     }
 }

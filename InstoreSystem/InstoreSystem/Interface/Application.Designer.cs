@@ -33,7 +33,7 @@
             this.btnEmployees = new System.Windows.Forms.Button();
             this.btnFinance = new System.Windows.Forms.Button();
             this.btnCashier = new System.Windows.Forms.Button();
-            this.btnSales = new System.Windows.Forms.Button();
+            this.btnOrders = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -42,6 +42,7 @@
             // 
             this.btnHome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btnHome.FlatAppearance.BorderSize = 0;
+            this.btnHome.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHome.ForeColor = System.Drawing.Color.White;
             this.btnHome.Location = new System.Drawing.Point(108, 0);
@@ -54,8 +55,9 @@
             // 
             // btnInventory
             // 
-            this.btnInventory.BackColor = System.Drawing.Color.Black;
+            this.btnInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
             this.btnInventory.FlatAppearance.BorderSize = 0;
+            this.btnInventory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnInventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInventory.ForeColor = System.Drawing.Color.White;
             this.btnInventory.Location = new System.Drawing.Point(346, 0);
@@ -68,8 +70,9 @@
             // 
             // btnEmployees
             // 
-            this.btnEmployees.BackColor = System.Drawing.Color.Black;
+            this.btnEmployees.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
             this.btnEmployees.FlatAppearance.BorderSize = 0;
+            this.btnEmployees.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnEmployees.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEmployees.ForeColor = System.Drawing.Color.White;
             this.btnEmployees.Location = new System.Drawing.Point(584, 0);
@@ -82,8 +85,9 @@
             // 
             // btnFinance
             // 
-            this.btnFinance.BackColor = System.Drawing.Color.Black;
+            this.btnFinance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
             this.btnFinance.FlatAppearance.BorderSize = 0;
+            this.btnFinance.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnFinance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFinance.ForeColor = System.Drawing.Color.White;
             this.btnFinance.Location = new System.Drawing.Point(822, 0);
@@ -96,8 +100,9 @@
             // 
             // btnCashier
             // 
-            this.btnCashier.BackColor = System.Drawing.Color.Black;
+            this.btnCashier.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
             this.btnCashier.FlatAppearance.BorderSize = 0;
+            this.btnCashier.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnCashier.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCashier.ForeColor = System.Drawing.Color.White;
             this.btnCashier.Location = new System.Drawing.Point(1060, 0);
@@ -108,26 +113,27 @@
             this.btnCashier.UseVisualStyleBackColor = false;
             this.btnCashier.Click += new System.EventHandler(this.btnCashier_Click);
             // 
-            // btnSales
+            // btnOrders
             // 
-            this.btnSales.BackColor = System.Drawing.Color.Black;
-            this.btnSales.FlatAppearance.BorderSize = 0;
-            this.btnSales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSales.ForeColor = System.Drawing.Color.White;
-            this.btnSales.Location = new System.Drawing.Point(1298, 0);
-            this.btnSales.Name = "btnSales";
-            this.btnSales.Size = new System.Drawing.Size(238, 40);
-            this.btnSales.TabIndex = 5;
-            this.btnSales.Text = "Sales";
-            this.btnSales.UseVisualStyleBackColor = false;
-            this.btnSales.Click += new System.EventHandler(this.btnSales_Click);
+            this.btnOrders.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.btnOrders.FlatAppearance.BorderSize = 0;
+            this.btnOrders.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOrders.ForeColor = System.Drawing.Color.White;
+            this.btnOrders.Location = new System.Drawing.Point(1298, 0);
+            this.btnOrders.Name = "btnOrders";
+            this.btnOrders.Size = new System.Drawing.Size(238, 40);
+            this.btnOrders.TabIndex = 5;
+            this.btnOrders.Text = "Orders";
+            this.btnOrders.UseVisualStyleBackColor = false;
+            this.btnOrders.Click += new System.EventHandler(this.btnOrders_Click);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::InstoreSystem.Properties.Resources.images__1_;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(89, 94);
+            this.pictureBox1.Size = new System.Drawing.Size(108, 115);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
@@ -139,7 +145,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1536, 1055);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.btnSales);
+            this.Controls.Add(this.btnOrders);
             this.Controls.Add(this.btnCashier);
             this.Controls.Add(this.btnFinance);
             this.Controls.Add(this.btnEmployees);
@@ -163,7 +169,7 @@
         private System.Windows.Forms.Button btnEmployees;
         private System.Windows.Forms.Button btnFinance;
         private System.Windows.Forms.Button btnCashier;
-        private System.Windows.Forms.Button btnSales;
+        private System.Windows.Forms.Button btnOrders;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -12,17 +12,16 @@ namespace InstoreSystem.Model
 {
     internal class Order
     {
-        protected int orderId;
-        protected DateTime date;
-        protected string status;
-        protected decimal amount;
-        protected int employeeId;
-        protected int customerId;
+        private int orderId;
+        private DateTime date;
+        private string status;
+        private decimal amount;
+        private int employeeId;
+        private int customerId;
 
         // Constructor called when a new order is created
-        public Order(int orderId, DateTime date, string status, decimal amount, int employeeId, int customerId)
+        public Order(DateTime date, string status, decimal amount, int employeeId, int customerId)
         {
-            this.orderId = orderId;
             this.date = date;
             this.status = status;
             this.amount = amount;

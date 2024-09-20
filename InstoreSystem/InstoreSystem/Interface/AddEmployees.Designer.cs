@@ -52,29 +52,29 @@
             this.pnlManagerDetails = new System.Windows.Forms.Panel();
             this.txtManagerQualification = new System.Windows.Forms.TextBox();
             this.txtManagerEmail = new System.Windows.Forms.TextBox();
+            this.cmbManagerRole = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.pnlAccountantDetails = new System.Windows.Forms.Panel();
             this.txtAccountantQualification = new System.Windows.Forms.TextBox();
             this.txtAccountantEmail = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.cmbManagerRole = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.pnlSalesAssociateDetails = new System.Windows.Forms.Panel();
+            this.txtSalesAssociateExperience = new System.Windows.Forms.TextBox();
+            this.cmbSalesAssociateType = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.pnlCashierDetails = new System.Windows.Forms.Panel();
             this.txtCashierExperience = new System.Windows.Forms.TextBox();
             this.txtCashierCashRegisterNo = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.txtSalesAssociateExperience = new System.Windows.Forms.TextBox();
-            this.cmbSalesAssociateType = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
             this.pnlManagerDetails.SuspendLayout();
             this.pnlAccountantDetails.SuspendLayout();
             this.pnlSalesAssociateDetails.SuspendLayout();
@@ -304,6 +304,54 @@
             this.txtManagerEmail.Size = new System.Drawing.Size(339, 30);
             this.txtManagerEmail.TabIndex = 25;
             // 
+            // cmbManagerRole
+            // 
+            this.cmbManagerRole.FormattingEnabled = true;
+            this.cmbManagerRole.Items.AddRange(new object[] {
+            "General Manager",
+            "HR Manager",
+            "Store Manager"});
+            this.cmbManagerRole.Location = new System.Drawing.Point(165, 86);
+            this.cmbManagerRole.Name = "cmbManagerRole";
+            this.cmbManagerRole.Size = new System.Drawing.Size(226, 33);
+            this.cmbManagerRole.TabIndex = 25;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(34, 248);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(119, 25);
+            this.label13.TabIndex = 27;
+            this.label13.Text = "Qualification";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(34, 169);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(60, 25);
+            this.label12.TabIndex = 26;
+            this.label12.Text = "Email";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(34, 86);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(51, 25);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "Role";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(180, 21);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(154, 25);
+            this.label10.TabIndex = 25;
+            this.label10.Text = "Manager Details";
+            // 
             // pnlAccountantDetails
             // 
             this.pnlAccountantDetails.BackColor = System.Drawing.Color.Gainsboro;
@@ -360,54 +408,6 @@
             this.label17.TabIndex = 25;
             this.label17.Text = "Accountant Details";
             // 
-            // cmbManagerRole
-            // 
-            this.cmbManagerRole.FormattingEnabled = true;
-            this.cmbManagerRole.Items.AddRange(new object[] {
-            "General Manager",
-            "HR Manager",
-            "Store Manager"});
-            this.cmbManagerRole.Location = new System.Drawing.Point(165, 86);
-            this.cmbManagerRole.Name = "cmbManagerRole";
-            this.cmbManagerRole.Size = new System.Drawing.Size(226, 33);
-            this.cmbManagerRole.TabIndex = 25;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(34, 248);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(119, 25);
-            this.label13.TabIndex = 27;
-            this.label13.Text = "Qualification";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(34, 169);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(60, 25);
-            this.label12.TabIndex = 26;
-            this.label12.Text = "Email";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(34, 86);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(51, 25);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "Role";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(180, 21);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(154, 25);
-            this.label10.TabIndex = 25;
-            this.label10.Text = "Manager Details";
-            // 
             // pnlSalesAssociateDetails
             // 
             this.pnlSalesAssociateDetails.BackColor = System.Drawing.Color.Gainsboro;
@@ -421,6 +421,53 @@
             this.pnlSalesAssociateDetails.Size = new System.Drawing.Size(526, 385);
             this.pnlSalesAssociateDetails.TabIndex = 28;
             this.pnlSalesAssociateDetails.Visible = false;
+            // 
+            // txtSalesAssociateExperience
+            // 
+            this.txtSalesAssociateExperience.Location = new System.Drawing.Point(165, 182);
+            this.txtSalesAssociateExperience.Multiline = true;
+            this.txtSalesAssociateExperience.Name = "txtSalesAssociateExperience";
+            this.txtSalesAssociateExperience.Size = new System.Drawing.Size(339, 161);
+            this.txtSalesAssociateExperience.TabIndex = 25;
+            // 
+            // cmbSalesAssociateType
+            // 
+            this.cmbSalesAssociateType.FormattingEnabled = true;
+            this.cmbSalesAssociateType.Items.AddRange(new object[] {
+            "Senior",
+            "Training",
+            "Temporary"});
+            this.cmbSalesAssociateType.Location = new System.Drawing.Point(165, 86);
+            this.cmbSalesAssociateType.Name = "cmbSalesAssociateType";
+            this.cmbSalesAssociateType.Size = new System.Drawing.Size(226, 33);
+            this.cmbSalesAssociateType.TabIndex = 25;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(34, 185);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(110, 25);
+            this.label16.TabIndex = 27;
+            this.label16.Text = "Experience";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(34, 86);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(57, 25);
+            this.label19.TabIndex = 25;
+            this.label19.Text = "Type";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(157, 21);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(217, 25);
+            this.label20.TabIndex = 25;
+            this.label20.Text = "Sales Associate Details";
             // 
             // pnlCashierDetails
             // 
@@ -477,53 +524,6 @@
             this.label23.Size = new System.Drawing.Size(144, 25);
             this.label23.TabIndex = 25;
             this.label23.Text = "Cashier Details";
-            // 
-            // txtSalesAssociateExperience
-            // 
-            this.txtSalesAssociateExperience.Location = new System.Drawing.Point(165, 182);
-            this.txtSalesAssociateExperience.Multiline = true;
-            this.txtSalesAssociateExperience.Name = "txtSalesAssociateExperience";
-            this.txtSalesAssociateExperience.Size = new System.Drawing.Size(339, 161);
-            this.txtSalesAssociateExperience.TabIndex = 25;
-            // 
-            // cmbSalesAssociateType
-            // 
-            this.cmbSalesAssociateType.FormattingEnabled = true;
-            this.cmbSalesAssociateType.Items.AddRange(new object[] {
-            "Senior",
-            "Training",
-            "Temporary"});
-            this.cmbSalesAssociateType.Location = new System.Drawing.Point(165, 86);
-            this.cmbSalesAssociateType.Name = "cmbSalesAssociateType";
-            this.cmbSalesAssociateType.Size = new System.Drawing.Size(226, 33);
-            this.cmbSalesAssociateType.TabIndex = 25;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(34, 185);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(110, 25);
-            this.label16.TabIndex = 27;
-            this.label16.Text = "Experience";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(34, 86);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(57, 25);
-            this.label19.TabIndex = 25;
-            this.label19.Text = "Type";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(157, 21);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(217, 25);
-            this.label20.TabIndex = 25;
-            this.label20.Text = "Sales Associate Details";
             // 
             // AddEmployees
             // 

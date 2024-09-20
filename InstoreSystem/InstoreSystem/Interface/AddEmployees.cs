@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,10 +18,25 @@ namespace InstoreSystem.Employees
 {
     public partial class AddEmployees : Form
     {
-        string cs = @"Server=localhost; Port=3307; Database=studentsdb; User Id=root;";
+        int employeeId = 0;
+        string position = "";
+        
+        // Constructor called when the form is created to add a new employee
         public AddEmployees()
         {
             InitializeComponent();
+
+            setNextId();
+        }
+
+        public AddEmployees(int employeeId)
+        {
+            InitializeComponent();
+
+            this.employeeId = employeeId;
+            changeToUpdate();
+            getPosition();
+            loadEmployeeDetails();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -59,29 +75,28 @@ namespace InstoreSystem.Employees
                         gender = "Female";
                     }
 
-                    Employee emp = new Employee(Convert.ToInt32(txtId.Text), txtName.Text, txtAddress.Text, txtContactNo.Text, dtpDob.Value, gender, Convert.ToDouble(txtSalary.Text), storeId);
-                    emp.addEmployee(1);
-
                     if (cmbPosition.Text == "Manager")
                     {
-                        Manager man = new Manager(Convert.ToInt32(txtId.Text), cmbManagerRole.Text, txtManagerEmail.Text, txtManagerQualification.Text);
-                        man.addManager();
+                        Manager man = new Manager(txtName.Text, txtAddress.Text, txtContactNo.Text, dtpDob.Value, gender, Convert.ToDouble(txtSalary.Text), storeId, cmbManagerRole.Text, txtManagerEmail.Text, txtManagerQualification.Text);
+                        man.addManager(1);
                     }
                     else if (cmbPosition.Text == "Accountant")
                     {
-                        Accountant acc = new Accountant(Convert.ToInt32(txtId.Text), txtAccountantEmail.Text, txtAccountantQualification.Text);
-                        acc.addAccountant();
+                        Accountant acc = new Accountant(txtName.Text, txtAddress.Text, txtContactNo.Text, dtpDob.Value, gender, Convert.ToDouble(txtSalary.Text), storeId, txtAccountantEmail.Text, txtAccountantQualification.Text);
+                        acc.addAccountant(1);
                     }
                     else if (cmbPosition.Text == "Sales Associate")
                     {
-                        SalesAssociate sa = new SalesAssociate(Convert.ToInt32(txtId.Text), txtSalesAssociateExperience.Text, cmbSalesAssociateType.Text);
-                        sa.addSalesAssociate();
+                        SalesAssociate sa = new SalesAssociate(txtName.Text, txtAddress.Text, txtContactNo.Text, dtpDob.Value, gender, Convert.ToDouble(txtSalary.Text), storeId, txtSalesAssociateExperience.Text, cmbSalesAssociateType.Text);
+                        sa.addSalesAssociate(1);
                     }
                     else if (cmbPosition.Text == "Cashier")
                     {
-                        Cashier cash = new Cashier(Convert.ToInt32(txtId.Text), Convert.ToInt32(txtCashierCashRegisterNo.Text), txtCashierExperience.Text);
-                        cash.addCashier();
+                        Cashier cash = new Cashier(txtName.Text, txtAddress.Text, txtContactNo.Text, dtpDob.Value, gender, Convert.ToDouble(txtSalary.Text), storeId, Convert.ToInt32(txtCashierCashRegisterNo.Text), txtCashierExperience.Text);
+                        cash.addCashier(1);
                     }
+
+                    clearFields();
                 }
             }
         }
@@ -245,6 +260,297 @@ namespace InstoreSystem.Employees
             txtSalesAssociateExperience.Text = "";
             txtCashierCashRegisterNo.Text = "";
             txtCashierExperience.Text = "";
+        }
+
+        private void getPosition()
+        {
+            string query = @"SELECT 
+                                managerID, 'Manager' AS position 
+                             FROM manager 
+                             WHERE managerID = @employeeId 
+                             UNION 
+                             SELECT accountantID, 'Accountant' AS position 
+                             FROM accountant 
+                             WHERE accountantID = @employeeId 
+                             UNION 
+                             SELECT salesAssocID, 'Sales Associate' AS position 
+                             FROM salesassociate 
+                             WHERE salesAssocID = @employeeId 
+                             UNION 
+                             SELECT cashierID, 'Cashier' AS position 
+                             FROM cashier 
+                             WHERE cashierID = @employeeId";
+
+            using (MySqlConnection connection = Connector.getConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(query, connection);
+
+                    com.Parameters.AddWithValue("@employeeId", employeeId);
+                    MySqlDataReader dr = com.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        position = dr.GetString("position");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (Validate())
+            {
+                int storeId = 0;
+
+                using (MySqlConnection con = Connector.getConnection())
+                {
+                    con.Open();
+
+                    string query = "SELECT storeID FROM store WHERE storeName = @storeName";
+
+                    using (MySqlCommand command = new MySqlCommand(query, con))
+                    {
+                        command.Parameters.AddWithValue("@storeName", cmbStore.Text);
+
+                        MySqlDataReader dr = command.ExecuteReader();
+
+                        if (dr.Read())
+                        {
+                            storeId = Convert.ToInt32(dr["storeID"]);
+                        }
+                    }
+                }
+
+                if (position == "Manager")
+                {
+                    Manager emp = new Manager(employeeId);
+                    emp.setName(txtName.Text);
+                    emp.setContactNo(txtContactNo.Text);
+                    emp.setAddress(txtAddress.Text);
+                    emp.setdOB(dtpDob.Value);
+
+                    if (rbMale.Checked)
+                    {
+                        emp.setGender("Male");
+                    }
+                    else if (rbFemale.Checked)
+                    {
+                        emp.setGender("Female");
+                    }
+
+                    emp.setSalary(Convert.ToDouble(txtSalary.Text));
+                    emp.setStoreId(storeId);
+                    emp.setRole(cmbManagerRole.Text);
+                    emp.setEmail(txtManagerEmail.Text);
+                    emp.setQualification(txtManagerQualification.Text);
+
+                    emp.updateManager();
+                }
+                else if (position == "Accountant")
+                {
+                    Accountant emp = new Accountant(employeeId);
+                    emp.setName(txtName.Text);
+                    emp.setContactNo(txtContactNo.Text);
+                    emp.setAddress(txtAddress.Text);
+                    emp.setdOB(dtpDob.Value);
+
+                    if (rbMale.Checked)
+                    {
+                        emp.setGender("Male");
+                    }
+                    else if (rbFemale.Checked)
+                    {
+                        emp.setGender("Female");
+                    }
+
+                    emp.setSalary(Convert.ToDouble(txtSalary.Text));
+                    emp.setStoreId(storeId);
+                    emp.setEmail(txtAccountantEmail.Text);
+                    emp.setQualification(txtAccountantQualification.Text);
+
+                    emp.updateAccountant();
+                }
+                else if (position == "Sales Associate")
+                {
+                    SalesAssociate emp = new SalesAssociate(employeeId);
+                    emp.setName(txtName.Text);
+                    emp.setContactNo(txtContactNo.Text);
+                    emp.setAddress(txtAddress.Text);
+                    emp.setdOB(dtpDob.Value);
+
+                    if (rbMale.Checked)
+                    {
+                        emp.setGender("Male");
+                    }
+                    else if (rbFemale.Checked)
+                    {
+                        emp.setGender("Female");
+                    }
+
+                    emp.setSalary(Convert.ToDouble(txtSalary.Text));
+                    emp.setStoreId(storeId);
+                    emp.setType(cmbSalesAssociateType.Text);
+                    emp.setExperience(txtSalesAssociateExperience.Text);
+
+                    emp.updateSalesAssociate();
+                }
+                else if (position == "Cashier")
+                {
+                    Cashier emp = new Cashier(employeeId);
+                    emp.setName(txtName.Text);
+                    emp.setContactNo(txtContactNo.Text);
+                    emp.setAddress(txtAddress.Text);
+                    emp.setdOB(dtpDob.Value);
+
+                    if (rbMale.Checked)
+                    {
+                        emp.setGender("Male");
+                    }
+                    else if (rbFemale.Checked)
+                    {
+                        emp.setGender("Female");
+                    }
+
+                    emp.setSalary(Convert.ToDouble(txtSalary.Text));
+                    emp.setStoreId(storeId);
+                    emp.setCashRegisterId(Convert.ToInt32(txtCashierCashRegisterNo.Text));
+                    emp.setExperience(txtCashierExperience.Text);
+
+                    emp.updateCashier();
+                }
+
+                this.Dispose();
+            }
+        }
+
+        private void loadEmployeeDetails()
+        {
+            Employee emp = new Employee(employeeId);
+            Dictionary<string, string> employeeDetails = emp.getEmployeeDetails();
+
+            txtId.Text = employeeDetails["employeeId"];
+            txtName.Text = employeeDetails["employeeName"];
+            txtContactNo.Text = employeeDetails["contactNo"];
+            txtAddress.Text = employeeDetails["address"];
+            dtpDob.Value = Convert.ToDateTime(employeeDetails["dOB"]);
+
+            if (employeeDetails["gender"] == "Male")
+            {
+                rbMale.Checked = true;
+            }
+            else if (employeeDetails["gender"] == "Female")
+            {
+                rbFemale.Checked = true;
+            }
+
+            txtSalary.Text = employeeDetails["salary"];
+
+            string storeName = "";
+
+            using (MySqlConnection con = Connector.getConnection())
+            {
+                con.Open();
+
+                string query = "SELECT storeName FROM store WHERE storeID = @storeId";
+
+                using (MySqlCommand command = new MySqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@storeId", Convert.ToInt32(employeeDetails["storeId"]));
+
+                    MySqlDataReader dr = command.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        storeName = dr.GetString("storeName");
+                    }
+                }
+            }
+
+            cmbStore.SelectedItem = storeName;
+
+            if (position == "Manager")
+            {
+                cmbPosition.SelectedItem = position;
+                cmbPosition.Enabled = false;
+                Manager man = new Manager(employeeId);
+                Dictionary<string, string> managerDetails = man.getManagerDetails();
+                cmbManagerRole.SelectedItem = managerDetails["role"];
+                txtManagerEmail.Text = managerDetails["email"];
+                txtManagerQualification.Text = managerDetails["qualification"];
+            }
+            else if (position == "Accountant")
+            {
+                cmbPosition.SelectedItem = position;
+                cmbPosition.Enabled = false;
+                Accountant acc = new Accountant(employeeId);
+                Dictionary<string, string> accountantDetails = acc.getAccountantDetails();
+                txtAccountantEmail.Text = accountantDetails["email"];
+                txtAccountantQualification.Text = accountantDetails["qualification"];
+            }
+            else if (position == "Sales Associate")
+            {
+                cmbPosition.SelectedItem = position;
+                cmbPosition.Enabled = false;
+                SalesAssociate sa = new SalesAssociate(employeeId);
+                Dictionary<string, string> salesAssociateDetails = sa.getSalesAssociateDetails();
+                cmbSalesAssociateType.SelectedItem = salesAssociateDetails["type"];
+                txtSalesAssociateExperience.Text = salesAssociateDetails["experience"];
+            }
+            else if (position == "Cashier")
+            {
+                cmbPosition.SelectedItem = position;
+                cmbPosition.Enabled = false;
+                Cashier cash = new Cashier(employeeId);
+                Dictionary<string, string> cashierDetails = cash.getCashierDetails();
+                txtCashierCashRegisterNo.Text = cashierDetails["cashRegisterId"];
+                txtCashierExperience.Text = cashierDetails["experience"];
+            }
+        }
+
+        private void changeToUpdate()
+        {
+            Text = "Update Employee";
+            btnAdd.Text = "Update";
+            btnAdd.Click -= btnAdd_Click;
+            btnAdd.Click += btnUpdate_Click;
+        }
+
+        private void setNextId()
+        {
+            using (MySqlConnection con = Connector.getConnection())
+            {
+                con.Open();
+
+                string query = "SELECT MAX(employeeID) AS employeeID FROM employee";
+
+                using (MySqlCommand command = new MySqlCommand(query, con))
+                {
+                    MySqlDataReader dr = command.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        if (dr.GetValue(0).ToString() == "")
+                        {
+                            txtId.Text = "1";
+                        }
+                        else
+                        {
+                            txtId.Text = (Convert.ToInt32(dr.GetValue(0)) + 1).ToString();
+                        }
+                    }
+                    else
+                    {
+                        txtId.Text = "1";
+                    }
+                }
+            }
         }
     }
 }

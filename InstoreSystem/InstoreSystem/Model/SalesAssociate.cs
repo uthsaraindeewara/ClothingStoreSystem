@@ -5,25 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using InstoreSystem.Employees;
 
 namespace InstoreSystem.Model
 {
-    internal class SalesAssociate
+    internal class SalesAssociate : Employee
     {
         private int salesAssociateID;
         private string experience;
         private string type;
 
         // Constructor called when a new SalesAssociate object is created
-        public SalesAssociate(int salesAssociateID, string experience, string type)
+        public SalesAssociate(string employeeName, string address, string contactNo, DateTime dOB, string gender, double salary, int storeId, string experience, string type)
+            : base(employeeName, address, contactNo, dOB, gender, salary, storeId)
         {
-            this.salesAssociateID = salesAssociateID;
             this.experience = experience;
             this.type = type;
         }
 
         // Constructor called when an existing SalesAssociate object is created from the database
         public SalesAssociate(int salesAssociateID)
+            : base(salesAssociateID)
         {
             string query = "SELECT salesAssocID, experience, type FROM salesassociate WHERE salesAssocID = @salesAssociateID";
 
@@ -51,8 +53,31 @@ namespace InstoreSystem.Model
         }
 
         // Add new SalesAssociate to the database
-        public void addSalesAssociate()
+        public void addSalesAssociate(int admin_id)
         {
+            addEmployee(admin_id);
+
+            string sql = "SELECT MAX(employeeID) AS employeeID FROM employee";
+
+            using (MySqlConnection connection = Connector.getConnection())
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand com = new MySqlCommand(sql, connection);
+                    MySqlDataReader dr = com.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        salesAssociateID = dr.GetInt32("employeeID");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error");
+                }
+            }
+
             string query = "INSERT INTO salesassociate (salesAssocID, experience, type) " +
                            "VALUES (@salesAssociateID, @experience, @type)";
 
@@ -82,6 +107,8 @@ namespace InstoreSystem.Model
         // Update an existing SalesAssociate in the database
         public void updateSalesAssociate()
         {
+            updateEmployee();
+
             string query = "UPDATE salesassociate SET " +
                            "experience = @experience, " +
                            "type = @type " +
@@ -112,6 +139,27 @@ namespace InstoreSystem.Model
                     MessageBox.Show($"Error: {ex.Message}", "Error");
                 }
             }
+        }
+
+        public Dictionary<String, String> getSalesAssociateDetails()
+        {
+            Dictionary<String, String> salesAssociateDetails = new Dictionary<String, String>()
+            {
+                { "experience", this.experience },
+                { "type", this.type },
+            };
+
+            return salesAssociateDetails;
+        }
+
+        public void setType(String type)
+        {
+            this.type = type;
+        }
+
+        public void setExperience(String experience)
+        {
+            this.experience = experience;
         }
     }
 }

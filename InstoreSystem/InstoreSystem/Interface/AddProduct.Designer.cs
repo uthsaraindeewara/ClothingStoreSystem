@@ -474,7 +474,6 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "AddProduct";
             this.Text = "Add Product";
-            this.Load += new System.EventHandler(this.AddProduct_Load);
             this.pnlAlphaSize.ResumeLayout(false);
             this.pnlAlphaSize.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.XL4)).EndInit();

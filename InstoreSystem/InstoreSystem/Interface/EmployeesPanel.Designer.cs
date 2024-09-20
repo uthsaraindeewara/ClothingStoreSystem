@@ -37,19 +37,21 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbFilterFrom = new System.Windows.Forms.ComboBox();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EmployeeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Attendance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Store = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmbFilterFrom = new System.Windows.Forms.ComboBox();
             this.btnAttendance = new System.Windows.Forms.Button();
             this.btnSchedules = new System.Windows.Forms.Button();
             this.btnPayroll = new System.Windows.Forms.Button();
             this.btnNewEmployee = new System.Windows.Forms.Button();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -150,28 +152,6 @@
             this.dataGridView1.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellMouseEnter);
             this.dataGridView1.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellMouseLeave);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1236, 101);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 25);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "From";
-            // 
-            // cmbFilterFrom
-            // 
-            this.cmbFilterFrom.FormattingEnabled = true;
-            this.cmbFilterFrom.Items.AddRange(new object[] {
-            "All",
-            "Palawaththa",
-            "Welisara"});
-            this.cmbFilterFrom.Location = new System.Drawing.Point(1317, 98);
-            this.cmbFilterFrom.Name = "cmbFilterFrom";
-            this.cmbFilterFrom.Size = new System.Drawing.Size(180, 33);
-            this.cmbFilterFrom.TabIndex = 17;
-            this.cmbFilterFrom.SelectedIndexChanged += new System.EventHandler(this.cmbFilterFrom_SelectedIndexChanged);
-            // 
             // ID
             // 
             this.ID.HeaderText = "ID";
@@ -213,21 +193,27 @@
             this.Store.ReadOnly = true;
             this.Store.Width = 140;
             // 
-            // Update
+            // label3
             // 
-            this.Update.HeaderText = "";
-            this.Update.Image = global::InstoreSystem.Properties.Resources.edit1;
-            this.Update.MinimumWidth = 6;
-            this.Update.Name = "Update";
-            this.Update.Width = 125;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1236, 101);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(57, 25);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "From";
             // 
-            // Delete
+            // cmbFilterFrom
             // 
-            this.Delete.HeaderText = "";
-            this.Delete.Image = global::InstoreSystem.Properties.Resources.delete_68613624;
-            this.Delete.MinimumWidth = 6;
-            this.Delete.Name = "Delete";
-            this.Delete.Width = 125;
+            this.cmbFilterFrom.FormattingEnabled = true;
+            this.cmbFilterFrom.Items.AddRange(new object[] {
+            "All",
+            "Palawaththa",
+            "Welisara"});
+            this.cmbFilterFrom.Location = new System.Drawing.Point(1317, 98);
+            this.cmbFilterFrom.Name = "cmbFilterFrom";
+            this.cmbFilterFrom.Size = new System.Drawing.Size(180, 33);
+            this.cmbFilterFrom.TabIndex = 17;
+            this.cmbFilterFrom.SelectedIndexChanged += new System.EventHandler(this.cmbFilterFrom_SelectedIndexChanged);
             // 
             // btnAttendance
             // 
@@ -273,6 +259,7 @@
             this.btnPayroll.TabIndex = 19;
             this.btnPayroll.Text = "Payroll";
             this.btnPayroll.UseVisualStyleBackColor = false;
+            this.btnPayroll.Click += new System.EventHandler(this.btnPayroll_Click);
             // 
             // btnNewEmployee
             // 
@@ -288,6 +275,39 @@
             this.btnNewEmployee.TabIndex = 18;
             this.btnNewEmployee.Text = "New Employee";
             this.btnNewEmployee.UseVisualStyleBackColor = false;
+            this.btnNewEmployee.Click += new System.EventHandler(this.btnNewEmployee_Click);
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::InstoreSystem.Properties.Resources.edit1;
+            this.dataGridViewImageColumn1.MinimumWidth = 6;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Width = 125;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.HeaderText = "";
+            this.dataGridViewImageColumn2.Image = global::InstoreSystem.Properties.Resources.delete_68613624;
+            this.dataGridViewImageColumn2.MinimumWidth = 6;
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.Width = 125;
+            // 
+            // Update
+            // 
+            this.Update.HeaderText = "";
+            this.Update.Image = global::InstoreSystem.Properties.Resources.edit1;
+            this.Update.MinimumWidth = 6;
+            this.Update.Name = "Update";
+            this.Update.Width = 125;
+            // 
+            // Delete
+            // 
+            this.Delete.HeaderText = "";
+            this.Delete.Image = global::InstoreSystem.Properties.Resources.delete_68613624;
+            this.Delete.MinimumWidth = 6;
+            this.Delete.Name = "Delete";
+            this.Delete.Width = 125;
             // 
             // EmployeesPanel
             // 
@@ -339,5 +359,7 @@
         private System.Windows.Forms.Button btnSchedules;
         private System.Windows.Forms.Button btnPayroll;
         private System.Windows.Forms.Button btnNewEmployee;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
     }
 }

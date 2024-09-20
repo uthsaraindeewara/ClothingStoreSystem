@@ -42,16 +42,16 @@ namespace InstoreSystem.Interface
             this.Controls.Add(finance);
             panels.Add("Finance", finance);
 
-            SalesPanel sales = new SalesPanel();
-            this.Controls.Add(sales);
-            panels.Add("Sales", sales);
+            OrdersPanel orders = new OrdersPanel();
+            this.Controls.Add(orders);
+            panels.Add("Orders", orders);
 
             buttons.Add("Home", btnHome);
             buttons.Add("Inventory", btnInventory);
             buttons.Add("Employees", btnEmployees);
             buttons.Add("Cashier", btnCashier);
             buttons.Add("Finance", btnFinance);
-            buttons.Add("Sales", btnSales);
+            buttons.Add("Orders", btnOrders);
         }
 
         private void btnHome_Click(object sender, EventArgs e)
@@ -79,9 +79,9 @@ namespace InstoreSystem.Interface
             panelChange("Cashier");
         }
 
-        private void btnSales_Click(object sender, EventArgs e)
+        private void btnOrders_Click(object sender, EventArgs e)
         {
-            panelChange("Sales");
+            panelChange("Orders");
         }
 
         private void panelChange(string currentPanel)
@@ -96,7 +96,7 @@ namespace InstoreSystem.Interface
                 else
                 {
                     kvp.Value.Visible = false;
-                    buttons[kvp.Key].BackColor = Color.FromArgb(0, 0, 0);
+                    buttons[kvp.Key].BackColor = Color.FromArgb(43, 43, 43);
                 }
             }
         }
