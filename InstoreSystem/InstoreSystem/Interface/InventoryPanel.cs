@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using FinalTest.Interface;
 using InstoreSystem.Model;
 using MySql.Data.MySqlClient;
 
@@ -260,6 +261,24 @@ namespace InstoreSystem.Interface
                     }
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AddProduct product = new AddProduct();
+            product.ShowDialog();
+        }
+
+        private void btnSupplier_Click(object sender, EventArgs e)
+        {
+            ManageSupplier supplier = new ManageSupplier();
+            supplier.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AddStock stock = new AddStock();
+            stock.ShowDialog();
         }
     }
 }

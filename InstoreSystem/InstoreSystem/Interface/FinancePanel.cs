@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using InstoreSystem.Model;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms.DataVisualization.Charting;
+using CrystalDecisions.CrystalReports.Engine;
+using FinalTest.Interface;
 
 namespace InstoreSystem.Interface
 {
@@ -305,9 +307,28 @@ namespace InstoreSystem.Interface
             salesReport.ShowDialog();
         }
 
-        private void chart1_Click(object sender, EventArgs e)
+        private void btnExpenseReport_Click(object sender, EventArgs e)
         {
+            ExpenseReportInput expenseReport = new ExpenseReportInput();
+            expenseReport.ShowDialog();
+        }
 
+        private void btnProfit_Click(object sender, EventArgs e)
+        {
+            ReportDocument report = new ReportDocument();
+            report.Load(@"D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\Reports\YearlySales.rpt");
+
+            report.SetParameterValue("storeId", 6);
+            report.SetParameterValue("year", "2024");
+
+            Reports rpt = new Reports(report);
+            rpt.ShowDialog();
+        }
+
+        private void btnNewExpenses_Click(object sender, EventArgs e)
+        {
+            AddSpending spending = new AddSpending();
+            spending.ShowDialog();
         }
     }
 }

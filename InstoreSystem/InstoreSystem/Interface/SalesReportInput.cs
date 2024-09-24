@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using CrystalDecisions.Windows.Forms;
 using InstoreSystem.Model;
 using MySql.Data.MySqlClient;
@@ -70,7 +71,77 @@ namespace InstoreSystem.Interface
                 ReportDocument report = new ReportDocument();
                 report.Load(@"D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\Reports\DaylySales.rpt");
 
+                ConnectionInfo connectionInfo = new ConnectionInfo
+                {
+                    ServerName = "MySQl",
+                    UserID = "root",
+                    Password = ""
+                };
+
+                // Apply the connection settings to each table in the report
+                foreach (Table table in report.Database.Tables)
+                {
+                    TableLogOnInfo logOnInfo = table.LogOnInfo;
+                    logOnInfo.ConnectionInfo = connectionInfo;
+                    table.ApplyLogOnInfo(logOnInfo);
+                }
+
                 report.SetParameterValue("date", dtpPeriod.Value.ToString());
+                report.SetParameterValue("storeId", storeId);
+
+                Reports rpt = new Reports(report);
+                rpt.ShowDialog();
+            }
+            else if (rbMonthly.Checked)
+            {
+                ReportDocument report = new ReportDocument();
+                report.Load(@"D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\Reports\MonthlySales.rpt");
+
+                // Set up the connection to the ODBC data source
+                ConnectionInfo connectionInfo = new ConnectionInfo
+                {
+                    ServerName = "MySQl",
+                    UserID = "root",
+                    Password = ""
+                };
+
+                // Apply the connection settings to each table in the report
+                foreach (Table table in report.Database.Tables)
+                {
+                    TableLogOnInfo logOnInfo = table.LogOnInfo;
+                    logOnInfo.ConnectionInfo = connectionInfo;
+                    table.ApplyLogOnInfo(logOnInfo);
+                }
+
+                report.SetParameterValue("month", dtpPeriod.Value.Month.ToString());
+                report.SetParameterValue("year", dtpPeriod.Value.Year.ToString());
+                report.SetParameterValue("storeId", storeId);
+
+                Reports rpt = new Reports(report);
+                rpt.ShowDialog();
+            }
+            else if (rbYearly.Checked)
+            {
+                ReportDocument report = new ReportDocument();
+                report.Load(@"D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\Reports\YearlySales.rpt");
+
+                // Set up the connection to the ODBC data source
+                ConnectionInfo connectionInfo = new ConnectionInfo
+                {
+                    ServerName = "MySQl",
+                    UserID = "root",
+                    Password = ""
+                };
+
+                // Apply the connection settings to each table in the report
+                foreach (Table table in report.Database.Tables)
+                {
+                    TableLogOnInfo logOnInfo = table.LogOnInfo;
+                    logOnInfo.ConnectionInfo = connectionInfo;
+                    table.ApplyLogOnInfo(logOnInfo);
+                }
+
+                report.SetParameterValue("year", dtpPeriod.Value.Year.ToString());
                 report.SetParameterValue("storeId", storeId);
 
                 Reports rpt = new Reports(report);
@@ -84,6 +155,11 @@ namespace InstoreSystem.Interface
         }
 
         private void rbMonthly_CheckedChanged(object sender, EventArgs e)
+        {
+            reportTypeChange();
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             reportTypeChange();
         }
@@ -102,6 +178,13 @@ namespace InstoreSystem.Interface
                 lblType.Text = "Month";
                 dtpPeriod.Format = DateTimePickerFormat.Custom;
                 dtpPeriod.CustomFormat = "MMMM yyyy";
+                dtpPeriod.ShowUpDown = true;
+            }
+            else if (rbYearly.Checked)
+            {
+                lblType.Text = "Year";
+                dtpPeriod.Format = DateTimePickerFormat.Custom;
+                dtpPeriod.CustomFormat = "yyyy";
                 dtpPeriod.ShowUpDown = true;
             }
         }

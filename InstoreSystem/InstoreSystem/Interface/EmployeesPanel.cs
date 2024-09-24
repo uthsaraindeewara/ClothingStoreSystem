@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Forms;
+using FinalTest.Interface;
 using InstoreSystem.Employees;
 using InstoreSystem.Interface;
 using InstoreSystem.Model;
@@ -276,6 +277,24 @@ namespace InstoreSystem
         {
             AddEmployees employees = new AddEmployees();
             employees.ShowDialog();
+        }
+
+        private void btnAttendance_Click(object sender, EventArgs e)
+        {
+            AttendanceReportInput attendanceReport = new AttendanceReportInput();
+            attendanceReport.ShowDialog();
+        }
+
+        private void btnSchedules_Click(object sender, EventArgs e)
+        {
+            AddSchedule schedule = new AddSchedule();
+            schedule.ShowDialog();
+        }
+
+        private void btnLeave_Click(object sender, EventArgs e)
+        {
+            ViewLeave leave = new ViewLeave();
+            leave.ShowDialog();
         }
     }
 }

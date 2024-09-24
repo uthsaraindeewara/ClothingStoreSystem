@@ -36,6 +36,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbStore = new System.Windows.Forms.ComboBox();
+            this.rbYearly = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // rbDaily
@@ -67,7 +68,7 @@
             this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpPeriod.Location = new System.Drawing.Point(126, 84);
             this.dtpPeriod.Name = "dtpPeriod";
-            this.dtpPeriod.Size = new System.Drawing.Size(265, 30);
+            this.dtpPeriod.Size = new System.Drawing.Size(449, 30);
             this.dtpPeriod.TabIndex = 2;
             // 
             // lblType
@@ -81,7 +82,7 @@
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(165, 222);
+            this.btnGenerate.Location = new System.Drawing.Point(341, 222);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(102, 45);
             this.btnGenerate.TabIndex = 4;
@@ -91,7 +92,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(289, 222);
+            this.btnCancel.Location = new System.Drawing.Point(473, 222);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(102, 45);
             this.btnCancel.TabIndex = 5;
@@ -115,14 +116,26 @@
             "Welesara"});
             this.cmbStore.Location = new System.Drawing.Point(126, 147);
             this.cmbStore.Name = "cmbStore";
-            this.cmbStore.Size = new System.Drawing.Size(265, 33);
+            this.cmbStore.Size = new System.Drawing.Size(449, 33);
             this.cmbStore.TabIndex = 7;
+            // 
+            // rbYearly
+            // 
+            this.rbYearly.AutoSize = true;
+            this.rbYearly.Location = new System.Drawing.Point(447, 27);
+            this.rbYearly.Name = "rbYearly";
+            this.rbYearly.Size = new System.Drawing.Size(88, 29);
+            this.rbYearly.TabIndex = 8;
+            this.rbYearly.Text = "Yearly";
+            this.rbYearly.UseVisualStyleBackColor = true;
+            this.rbYearly.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // SalesReportInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 300);
+            this.ClientSize = new System.Drawing.Size(653, 302);
+            this.Controls.Add(this.rbYearly);
             this.Controls.Add(this.cmbStore);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
@@ -150,5 +163,6 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbStore;
+        private System.Windows.Forms.RadioButton rbYearly;
     }
 }

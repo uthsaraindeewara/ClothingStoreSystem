@@ -196,7 +196,6 @@
             this.ID.HeaderText = "ID";
             this.ID.MinimumWidth = 6;
             this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
             this.ID.Width = 114;
             // 
             // Item
@@ -204,7 +203,6 @@
             this.Item.HeaderText = "Item";
             this.Item.MinimumWidth = 6;
             this.Item.Name = "Item";
-            this.Item.ReadOnly = true;
             this.Item.Width = 342;
             // 
             // Quantity
@@ -219,7 +217,6 @@
             this.UnitPrice.HeaderText = "Unit Price";
             this.UnitPrice.MinimumWidth = 6;
             this.UnitPrice.Name = "UnitPrice";
-            this.UnitPrice.ReadOnly = true;
             this.UnitPrice.Width = 140;
             // 
             // Price
@@ -227,7 +224,6 @@
             this.Price.HeaderText = "Price";
             this.Price.MinimumWidth = 6;
             this.Price.Name = "Price";
-            this.Price.ReadOnly = true;
             this.Price.Width = 125;
             // 
             // Delete
@@ -367,8 +363,10 @@
             this.txtDiscount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(30)))), ((int)(((byte)(58)))));
             this.txtDiscount.Location = new System.Drawing.Point(1234, 651);
             this.txtDiscount.Name = "txtDiscount";
+            this.txtDiscount.ReadOnly = true;
             this.txtDiscount.Size = new System.Drawing.Size(265, 30);
             this.txtDiscount.TabIndex = 19;
+            this.txtDiscount.Text = "0";
             this.txtDiscount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label8

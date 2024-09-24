@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using InstoreSystem.Model;
 using MySql.Data.MySqlClient;
+using WindowsFormsApp10;
 
 namespace InstoreSystem.Employees
 {
@@ -90,7 +91,8 @@ namespace InstoreSystem.Employees
 
                     if (com.ExecuteNonQuery() > 0)
                     {
-                        MessageBox.Show("Employee added successfully", "Information");
+                        SuccessMessage message = new SuccessMessage("Employee Added Successfully");
+                        message.ShowDialog();
                     }
                 }
                 catch (Exception ex)
@@ -131,7 +133,8 @@ namespace InstoreSystem.Employees
 
                     if (com.ExecuteNonQuery() > 0)
                     {
-                        MessageBox.Show("Employee updated successfully", "Information");
+                        SuccessMessage message = new SuccessMessage("Employee Updaed Successfully");
+                        message.ShowDialog();
                     }
                     else
                     {

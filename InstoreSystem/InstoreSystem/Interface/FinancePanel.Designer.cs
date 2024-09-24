@@ -131,7 +131,6 @@
             title1.Name = "Title1";
             title1.Text = "Daily Sales";
             this.chart1.Titles.Add(title1);
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             this.chart1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chart1_MouseClick);
             // 
             // chart2
@@ -302,6 +301,7 @@
             this.btnProfit.TabIndex = 25;
             this.btnProfit.Text = "Profit";
             this.btnProfit.UseVisualStyleBackColor = false;
+            this.btnProfit.Click += new System.EventHandler(this.btnProfit_Click);
             // 
             // btnExpenseReport
             // 
@@ -317,6 +317,7 @@
             this.btnExpenseReport.TabIndex = 24;
             this.btnExpenseReport.Text = "Expense Report";
             this.btnExpenseReport.UseVisualStyleBackColor = false;
+            this.btnExpenseReport.Click += new System.EventHandler(this.btnExpenseReport_Click);
             // 
             // btnNewExpenses
             // 
@@ -332,6 +333,7 @@
             this.btnNewExpenses.TabIndex = 23;
             this.btnNewExpenses.Text = "New Expenses";
             this.btnNewExpenses.UseVisualStyleBackColor = false;
+            this.btnNewExpenses.Click += new System.EventHandler(this.btnNewExpenses_Click);
             // 
             // btnSalesReport
             // 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FinalTest.Interface;
 
 namespace InstoreSystem.Interface
 {
@@ -14,6 +15,8 @@ namespace InstoreSystem.Interface
     {
         Dictionary<string, UserControl> panels = new Dictionary<string, UserControl>();
         Dictionary<String, Button> buttons = new Dictionary<String, Button>();
+        public int userId = 0;
+        public string position = "";
 
         public Application()
         {
@@ -52,6 +55,10 @@ namespace InstoreSystem.Interface
             buttons.Add("Cashier", btnCashier);
             buttons.Add("Finance", btnFinance);
             buttons.Add("Orders", btnOrders);
+
+            Login login = new Login(this);
+            login.ShowDialog();
+            permission();
         }
 
         private void btnHome_Click(object sender, EventArgs e)
@@ -98,6 +105,15 @@ namespace InstoreSystem.Interface
                     kvp.Value.Visible = false;
                     buttons[kvp.Key].BackColor = Color.FromArgb(43, 43, 43);
                 }
+            }
+        }
+
+        public void permission()
+        {
+            if (position == "Sales Associate" || position == "Cashier")
+            {
+                btnEmployees.Enabled = false;
+                btnFinance.Enabled = false;
             }
         }
     }

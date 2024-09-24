@@ -42,6 +42,8 @@
             this.Attendance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Store = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Update = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbFilterFrom = new System.Windows.Forms.ComboBox();
             this.btnAttendance = new System.Windows.Forms.Button();
@@ -50,8 +52,7 @@
             this.btnNewEmployee = new System.Windows.Forms.Button();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Update = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btnLeave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -193,6 +194,22 @@
             this.Store.ReadOnly = true;
             this.Store.Width = 140;
             // 
+            // Update
+            // 
+            this.Update.HeaderText = "";
+            this.Update.Image = global::InstoreSystem.Properties.Resources.edit1;
+            this.Update.MinimumWidth = 6;
+            this.Update.Name = "Update";
+            this.Update.Width = 125;
+            // 
+            // Delete
+            // 
+            this.Delete.HeaderText = "";
+            this.Delete.Image = global::InstoreSystem.Properties.Resources.delete_68613624;
+            this.Delete.MinimumWidth = 6;
+            this.Delete.Name = "Delete";
+            this.Delete.Width = 125;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -229,6 +246,7 @@
             this.btnAttendance.TabIndex = 21;
             this.btnAttendance.Text = "Attendance";
             this.btnAttendance.UseVisualStyleBackColor = false;
+            this.btnAttendance.Click += new System.EventHandler(this.btnAttendance_Click);
             // 
             // btnSchedules
             // 
@@ -244,6 +262,7 @@
             this.btnSchedules.TabIndex = 20;
             this.btnSchedules.Text = "Schedules";
             this.btnSchedules.UseVisualStyleBackColor = false;
+            this.btnSchedules.Click += new System.EventHandler(this.btnSchedules_Click);
             // 
             // btnPayroll
             // 
@@ -293,26 +312,27 @@
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 125;
             // 
-            // Update
+            // btnLeave
             // 
-            this.Update.HeaderText = "";
-            this.Update.Image = global::InstoreSystem.Properties.Resources.edit1;
-            this.Update.MinimumWidth = 6;
-            this.Update.Name = "Update";
-            this.Update.Width = 125;
-            // 
-            // Delete
-            // 
-            this.Delete.HeaderText = "";
-            this.Delete.Image = global::InstoreSystem.Properties.Resources.delete_68613624;
-            this.Delete.MinimumWidth = 6;
-            this.Delete.Name = "Delete";
-            this.Delete.Width = 125;
+            this.btnLeave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.btnLeave.FlatAppearance.BorderSize = 0;
+            this.btnLeave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnLeave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.btnLeave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLeave.ForeColor = System.Drawing.Color.White;
+            this.btnLeave.Location = new System.Drawing.Point(3, 479);
+            this.btnLeave.Name = "btnLeave";
+            this.btnLeave.Size = new System.Drawing.Size(203, 83);
+            this.btnLeave.TabIndex = 22;
+            this.btnLeave.Text = "Leave";
+            this.btnLeave.UseVisualStyleBackColor = false;
+            this.btnLeave.Click += new System.EventHandler(this.btnLeave_Click);
             // 
             // EmployeesPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnLeave);
             this.Controls.Add(this.btnAttendance);
             this.Controls.Add(this.btnSchedules);
             this.Controls.Add(this.btnPayroll);
@@ -361,5 +381,6 @@
         private System.Windows.Forms.Button btnNewEmployee;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
+        private System.Windows.Forms.Button btnLeave;
     }
 }

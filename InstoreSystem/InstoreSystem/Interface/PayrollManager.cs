@@ -11,6 +11,8 @@ using InstoreSystem.Model;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
 using System.Collections;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace InstoreSystem.Interface
 {
@@ -120,6 +122,33 @@ namespace InstoreSystem.Interface
 
                 Payroll pay = new Payroll(Convert.ToInt32(row.Cells["ID"].Value), DateTime.Today, Convert.ToDecimal(row.Cells["Bonus"].Value), Convert.ToDecimal(row.Cells["Deductions"].Value), Convert.ToDecimal(row.Cells["Salary"].Value));
                 pay.addPayroll();
+
+                ReportDocument report = new ReportDocument();
+                report.Load(@"D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\Reports\PaySlip.rpt");
+
+                // Set up the connection to the ODBC data source
+                ConnectionInfo connectionInfo = new ConnectionInfo
+                {
+                    ServerName = "MySQl", // Name of the ODBC Data Source
+                    UserID = "root", // Your MySQL username
+                    Password = "" // Your MySQL password
+                };
+
+                // Apply the connection settings to each table in the report
+                foreach (Table table in report.Database.Tables)
+                {
+                    TableLogOnInfo logOnInfo = table.LogOnInfo;
+                    logOnInfo.ConnectionInfo = connectionInfo;
+                    table.ApplyLogOnInfo(logOnInfo);
+                }
+
+                report.SetParameterValue("employeeId", row.Cells["ID"].Value);
+                report.SetParameterValue("noPay", Convert.ToDouble(row.Cells["NoPay"].Value) * 1000);
+                report.SetParameterValue("month", DateTime.Today.Month.ToString());
+                report.SetParameterValue("year", DateTime.Today.Year.ToString());
+
+                Reports rpt = new Reports(report);
+                rpt.ShowDialog();
 
                 dataGridView1.Rows.Remove(row);
             }

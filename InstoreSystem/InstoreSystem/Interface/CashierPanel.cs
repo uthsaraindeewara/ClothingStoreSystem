@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using CrystalDecisions.Windows.Forms;
 using InstoreSystem.Model;
 using MySql.Data.MySqlClient;
 
@@ -16,6 +19,7 @@ namespace InstoreSystem.Interface
     public partial class CashierPanel : UserControl
     {
         double total = 0;
+        Dictionary<int, double> discounts = new Dictionary<int, double>();
 
         public CashierPanel()
         {
@@ -46,6 +50,10 @@ namespace InstoreSystem.Interface
             {
                 // Get the row index of the clicked cell
                 int rowIndex = e.RowIndex;
+
+                txtDiscount.Text = (Convert.ToDouble(txtDiscount.Text) - discounts[rowIndex]).ToString();
+
+                discounts.Remove(rowIndex);
 
                 dataGridView1.Rows.RemoveAt(rowIndex);
 
@@ -240,7 +248,7 @@ namespace InstoreSystem.Interface
 
                             connection.Open();
 
-                            string sql = "SELECT productID, productName, price FROM product WHERE productID = @productId";
+                            string sql = "SELECT p.productID, p.productName, p.price, COALESCE(d.amount, 0) AS discount FROM product p LEFT JOIN discount d ON p.productID = d.productID WHERE p.productID = @productId";
 
                             using (MySqlCommand com = new MySqlCommand(sql, connection))
                             {
@@ -249,6 +257,10 @@ namespace InstoreSystem.Interface
 
                                 if (dr.Read())
                                 {
+                                    discounts.Add(dataGridView1.RowCount, dr.GetDouble("discount") * Convert.ToDouble(nucQuantity.Value));
+
+                                    txtDiscount.Text = (Convert.ToDouble(txtDiscount.Text) + (dr.GetDouble("discount") * Convert.ToDouble(nucQuantity.Value))).ToString();
+
                                     dataGridView1.Rows.Add(dr.GetInt32("productID"), dr.GetString("productName"), nucQuantity.Value, dr.GetDouble("price"), dr.GetDouble("price") * Convert.ToDouble(nucQuantity.Value));
                                 }
                             }
@@ -312,7 +324,7 @@ namespace InstoreSystem.Interface
 
                             connection.Open();
 
-                            string sql = "SELECT productID, productName, price FROM product WHERE productID = @productId";
+                            string sql = "SELECT p.productID, p.productName, p.price, COALESCE(d.amount, 0) AS discount FROM product p LEFT JOIN discount d ON p.productID = d.productID WHERE p.productID = @productId";
 
                             using (MySqlCommand com = new MySqlCommand(sql, connection))
                             {
@@ -321,6 +333,10 @@ namespace InstoreSystem.Interface
 
                                 if (dr.Read())
                                 {
+                                    discounts.Add(dataGridView1.RowCount, dr.GetDouble("discount"));
+
+                                    txtDiscount.Text = (Convert.ToDouble(txtDiscount.Text) + dr.GetDouble("discount")).ToString();
+
                                     dataGridView1.Rows.Add(dr.GetInt32("productID"), dr.GetString("productName"), nucQuantity.Value, dr.GetDouble("price"), dr.GetDouble("price") * Convert.ToDouble(nucQuantity.Value));
                                 }
                             }
@@ -372,7 +388,7 @@ namespace InstoreSystem.Interface
             }
 
             txtTotal.Text = total.ToString();
-            txtNetTotal.Text = total.ToString();
+            txtNetTotal.Text = (total - Convert.ToDouble(txtDiscount.Text)).ToString();
         }
 
         private void txtCash_KeyDown(object sender, KeyEventArgs e)
@@ -392,14 +408,15 @@ namespace InstoreSystem.Interface
                 {
                     connection.Open();
 
-                    string sql = "INSERT INTO bill (time, date, billAmount, discount) VALUES(@time, @date, @billAmount, @discount)";
+                    string sql = "INSERT INTO bill (time, date, billAmount, discount, store_id) VALUES(@time, @date, @billAmount, @discount, @storeId)";
 
                     using (MySqlCommand com = new MySqlCommand(sql, connection))
                     {
                         com.Parameters.AddWithValue("@time", DateTime.Now.TimeOfDay);
                         com.Parameters.AddWithValue("@date", DateTime.Now.Date);
                         com.Parameters.AddWithValue("@billAmount", total);
-                        com.Parameters.AddWithValue("@discount", 0);
+                        com.Parameters.AddWithValue("@discount", Convert.ToDecimal(txtDiscount.Text));
+                        com.Parameters.AddWithValue("@storeId", 6);
                         com.ExecuteNonQuery();
                     }
 
@@ -431,6 +448,32 @@ namespace InstoreSystem.Interface
                             com.ExecuteNonQuery();
                         }
                     }
+
+                    ReportDocument report = new ReportDocument();
+                    report.Load(@"D:\ClothingStoreSystem\InstoreSystem\InstoreSystem\Reports\BillReciept.rpt");
+
+                    // Set up the connection to the ODBC data source
+                    ConnectionInfo connectionInfo = new ConnectionInfo
+                    {
+                        ServerName = "MYSQLDB", // Name of the ODBC Data Source
+                        UserID = "root", // Your MySQL username
+                        Password = "" // Your MySQL password
+                    };
+
+                    // Apply the connection settings to each table in the report
+                    foreach (Table table in report.Database.Tables)
+                    {
+                        TableLogOnInfo logOnInfo = table.LogOnInfo;
+                        logOnInfo.ConnectionInfo = connectionInfo;
+                        table.ApplyLogOnInfo(logOnInfo);
+                    }
+
+                    report.SetParameterValue("billId", billId);
+                    report.SetParameterValue("storeAddress", "No. 24, Palawaththa, Baththaramulla");
+                    report.SetParameterValue("cash", Convert.ToDouble(txtCash.Text));
+
+                    Reports rpt = new Reports(report);
+                    rpt.ShowDialog();
                 }
                 catch (Exception ex)
                 {

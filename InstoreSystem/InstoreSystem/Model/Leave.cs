@@ -4,11 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using InstoreSystem.Model;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using FinalTest.Model;
+using InstoreSystem.Model;
 
-namespace InstoreSystem.Model
+namespace FinalTest.Model
 {
     internal class Leave
     {
